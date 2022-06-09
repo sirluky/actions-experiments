@@ -1,0 +1,24 @@
+
+on: push
+name: Nasazovačka
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+      - name: Get latest submodule from remote repo
+        run: git submodule update --init --recursive
+
+      # maybe minify code here ?
+
+      - name: get correct branch
+        run: |
+          branch=$(echo ${{ github.ref }} | sed 's/refs\/heads\/sticks-//')
+          echo "branch=${branch}" >> $GITHUB_ENV
+      # todo check via regex if this branch is a "version branch" v\d\.\d\.\d or "dev", otherwise do not upload to ftp
+
+      - name: Branch name is
+        run: echo ${{ env.branch }}
+
